@@ -131,7 +131,10 @@ export default function ApplyLoanPage() {
       setTimeout(() => {
         setProcessingStep(step)
         if (step === 4) {
-          setTimeout(() => setCurrentStep(4), 1000)
+          setTimeout(() => {
+              setCurrentStep(4)
+                  handleLoanSuccess()
+                    }, 1000)
         }
       }, delay)
     })
