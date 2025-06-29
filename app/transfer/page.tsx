@@ -232,7 +232,7 @@ export default function TransferPage() {
                 <Input
                   value={transferData.accountNumber}
                   onChange={(e) => handleInputChange("accountNumber", e.target.value.replace(/\D/g, "").slice(0, 15))}
-                  placeholder="11-digit account number"
+                  placeholder="Enter account number"
                   maxLength={15}
                 />
                 {errors.accountNumber && (
