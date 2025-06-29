@@ -32,12 +32,17 @@ useEffect(() => {
   const userData = JSON.parse(localStorage.getItem("moneymax_user") || "{}")
     const lastLoanApplication = localStorage.getItem("last_loan_application")
 
-      // 1. Block if user has an active loan
-        if (userData.hasActiveLoan) {
-            setCanApply(false)
-                setHoursLeft(-1)
-                    return
-                      }
+      if (lastLoanApplication) {
+        const timeSinceLastApplication = Date.now() - Number.parseInt(lastLoanApplication)
+          const cooldown = 24 * 60 * 60 * 1000
+
+            if (timeSinceLastApplication < cooldown) {
+                const hoursRemaining = Math.ceil((cooldown - timeSinceLastApplication) / (60 * 60 * 1000))
+                    setCanApply(false)
+                        setHoursLeft(hoursRemaining)
+                            return
+                              }
+                              }
 
                         // 2. If user has applied before, enforce 24-hour cooldown
                           if (userData.hasAppliedBefore && lastLoanApplication) {
