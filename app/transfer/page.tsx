@@ -50,9 +50,10 @@ export default function TransferPage() {
     if (!transferData.accountName.trim()) newErrors.accountName = "Account name is required"
     if (!transferData.accountNumber) {
       newErrors.accountNumber = "Account number is required"
-    } else if (!/^\d{11}$/.test(transferData.accountNumber)) {
-      newErrors.accountNumber = "Account number must be exactly 11 digits"
-    }
+    } else if (!/^\d{8,15}$/.test(transferData.accountNumber)) {
+      newErrors.accountNumber = "Account number must be between 8 and 15 digits"
+      }
+    
     if (!transferData.amount) {
       newErrors.amount = "Amount is required"
     } else if (Number.parseFloat(transferData.amount) < 100) {
@@ -230,9 +231,9 @@ export default function TransferPage() {
                 <Label>Account Number</Label>
                 <Input
                   value={transferData.accountNumber}
-                  onChange={(e) => handleInputChange("accountNumber", e.target.value.replace(/\D/g, "").slice(0, 11))}
+                  onChange={(e) => handleInputChange("accountNumber", e.target.value.replace(/\D/g, "").slice(0, 15))}
                   placeholder="11-digit account number"
-                  maxLength={11}
+                  maxLength={15}
                 />
                 {errors.accountNumber && (
                   <Alert variant="destructive">
