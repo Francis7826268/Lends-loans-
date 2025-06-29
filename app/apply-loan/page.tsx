@@ -34,18 +34,28 @@ export default function ApplyLoanPage() {
   useEffect(() => {
     setIsClient(true)
 
-    if (typeof window !== "undefined") {
-      const lastLoanApplication = localStorage.getItem("last_loan_application")
-      if (lastLoanApplication) {
-        const timeLeft = 24 * 60 * 60 * 1000 - (Date.now() - Number.parseInt(lastLoanApplication))
-        if (timeLeft > 0) {
-          setCanApply(false)
-          setHoursLeft(Math.ceil(timeLeft / (60 * 60 * 1000)))
-        }
-      }
-    }
-  }, [])
+      if (typeof window !== "undefined") {
+          const lastLoanApplication = localStorage.getItem("last_loan_application")
+              const userData = JSON.parse(localStorage.getItem("moneymax_user") || "{}")
 
+                  // Check if user has an active loan
+                      if (userData.hasActiveLoan) {
+                            setCanApply(false)
+                                  setHoursLeft(-1) // Sentinel value to indicate active loan, not time-based restriction
+                                        return
+                                            }
+
+                                               
+                                               if (lastLoanApplication) {
+                                                      const timeLeft = 24 * 60 * 60 * 1000 - (Date.now() - Number.parseInt(lastLoanApplication))
+                                                            if (timeLeft > 0) {
+                                                                    setCanApply(false)
+                                                                            setHoursLeft(Math.ceil(timeLeft / (60 * 60 * 1000)))
+                                                                                  }
+                                                                                      }
+                                                                                        }
+                                                                                        }, [])
+  
   // Create demo account if it doesn't exist (only on client side)
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -206,8 +216,18 @@ export default function ApplyLoanPage() {
               <CardDescription>Please wait 24 hours before applying again.</CardDescription>
             </CardHeader>
             <CardContent className="text-center">
-              <p className="text-2xl font-bold text-orange-600 mb-2">{hoursLeft} hours remaining</p>
-              <p className="text-gray-600">You can apply for your next loan after the waiting period.</p>
+              {hoursLeft === -1 ? (
+                <>
+                    <p className="text-2xl font-bold text-red-600 mb-2">Active Loan Detected</p>
+                        <p className="text-gray-600">You currently have an active loan. Please repay it before applying for a new one.</p>
+                          </>
+                          ) : (
+                            <>
+                                <p className="text-2xl font-bold text-orange-600 mb-2">{hoursLeft} hours remaining</p>
+                                    <p className="text-gray-600">You can apply for your next loan after the waiting period.</p>
+                                      </>
+                                      )}
+            
             </CardContent>
           </Card>
         </div>
