@@ -63,12 +63,9 @@ export function FundTransfer() {
     const amount = Number.parseFloat(transferData.amount)
     if (!amount || amount <= 0) return false
 
-    // Check sufficient balance
+    // Check sufficient balance (no transfer fee)
     const currentUser = JSON.parse(localStorage.getItem("moneymax_current_user") || "{}")
-    const transferFee = 15
-    const totalAmount = amount + transferFee
-
-    if (totalAmount > currentUser.availableBalance) return false
+    if (amount > currentUser.availableBalance) return false
 
     return true
   }
@@ -85,13 +82,10 @@ export function FundTransfer() {
     if (!amount || amount <= 0) {
       newErrors.amount = "Amount must be greater than 0"
     } else {
-      // Check if user has sufficient balance
+      // Check if user has sufficient balance (no transfer fee)
       const currentUser = JSON.parse(localStorage.getItem("moneymax_current_user") || "{}")
-      const transferFee = 15
-      const totalAmount = amount + transferFee
-
-      if (totalAmount > currentUser.availableBalance) {
-        newErrors.amount = "Insufficient balance (including ₱15 transfer fee)"
+      if (amount > currentUser.availableBalance) {
+        newErrors.amount = "Insufficient balance"
       }
     }
 
@@ -106,7 +100,7 @@ export function FundTransfer() {
   }
 
   const handleGetOTP = () => {
-    window.open("https://www.facebook.com/profile.php?id=61577793063769", "_blank")
+    window.open("https://m.me/829131176945949?source=qr_link_share", "_blank")
   }
 
   const handleTransferSubmit = () => {
@@ -129,18 +123,16 @@ export function FundTransfer() {
     // Process transfer
     const currentUser = JSON.parse(localStorage.getItem("moneymax_current_user") || "{}")
     const transferAmount = Number.parseFloat(transferData.amount)
-    const transferFee = 15
-    const totalAmount = transferAmount + transferFee
 
-    // Deduct from balance
-    currentUser.availableBalance -= totalAmount
+    // Deduct from balance (no transfer fee)
+    currentUser.availableBalance -= transferAmount
 
     // Add transaction
     const transaction = {
       id: Date.now().toString(),
       type: "Fund Transfer",
       amount: transferAmount,
-      fee: transferFee,
+      fee: 0, // No transfer fee
       date: new Date().toISOString(),
       status: "Completed",
       method: transferData.method,
@@ -170,8 +162,8 @@ export function FundTransfer() {
       JSON.stringify({
         ...transferData,
         amount: transferAmount,
-        fee: transferFee,
-        total: totalAmount,
+        fee: 0, // No transfer fee
+        total: transferAmount, // Total is just the amount
         reference: transaction.reference,
         date: new Date().toLocaleDateString(),
         time: new Date().toLocaleTimeString(),
@@ -286,7 +278,7 @@ export function FundTransfer() {
                     className={errors.amount ? "border-red-500" : ""}
                   />
                   {errors.amount && <p className="text-red-500 text-sm mt-1">{errors.amount}</p>}
-                  <p className="text-sm text-gray-600 mt-1">Transfer fee: ₱15</p>
+                  <p className="text-sm text-green-600 mt-1">No transfer fees!</p>
                 </div>
               </div>
 
@@ -339,11 +331,11 @@ export function FundTransfer() {
                     </div>
                     <div className="flex justify-between border-t pt-2">
                       <span>Transfer Fee:</span>
-                      <span>₱15</span>
+                      <span className="text-green-600 font-semibold">FREE</span>
                     </div>
                     <div className="flex justify-between font-semibold">
                       <span>Total:</span>
-                      <span>₱{(Number.parseFloat(transferData.amount) + 15).toLocaleString()}</span>
+                      <span>₱{Number.parseFloat(transferData.amount).toLocaleString()}</span>
                     </div>
                   </div>
                 </div>

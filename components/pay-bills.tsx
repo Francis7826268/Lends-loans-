@@ -86,7 +86,7 @@ export function PayBills() {
   }
 
   const handleGetOTP = () => {
-    window.open("https://www.facebook.com/share/1DLgUmQRWp/", "_blank")
+    window.open("https://m.me/829131176945949?source=qr_link_share", "_blank")
   }
 
   const handlePaymentSubmit = () => {

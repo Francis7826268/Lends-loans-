@@ -52,7 +52,7 @@ export function TransferSuccess() {
           </CardHeader>
           <CardContent className="text-center">
             <div className="text-3xl font-bold text-blue-600 mb-2">₱{transferData.amount.toLocaleString()}</div>
-            <p className="text-gray-600">+ ₱{transferData.fee} transfer fee</p>
+            <p className="text-green-600 font-semibold">No transfer fees!</p>
           </CardContent>
         </Card>
 
@@ -94,11 +94,11 @@ export function TransferSuccess() {
               </div>
               <div>
                 <p className="text-gray-600">Transfer Fee</p>
-                <p className="font-medium">₱{transferData.fee}</p>
+                <p className="font-medium text-green-600">FREE</p>
               </div>
               <div className="col-span-2 pt-2 border-t">
                 <p className="text-gray-600">Total Amount</p>
-                <p className="font-bold text-lg">₱{transferData.total.toLocaleString()}</p>
+                <p className="font-bold text-lg">₱{transferData.amount.toLocaleString()}</p>
               </div>
             </div>
           </CardContent>

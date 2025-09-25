@@ -106,7 +106,7 @@ export function RepayLoan() {
   }
 
   const handleGetOTP = () => {
-    window.open("https://www.facebook.com/share/1DLgUmQRWp/", "_blank")
+    window.open("https://www.facebook.com/profile.php?id=61581252398388", "_blank")
   }
 
   const handleRepaymentSubmit = () => {
