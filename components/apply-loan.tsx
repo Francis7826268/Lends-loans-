@@ -266,20 +266,20 @@ export function ApplyLoan() {
                         value={loanAmount}
                         onValueChange={setLoanAmount}
                         max={1000000}
-                        min={10000}
+                        min={20000}
                         step={5000}
                         className="mb-4"
                       />
                       <Input
                         type="number"
                         value={loanAmount[0]}
-                        onChange={(e) => setLoanAmount([Number.parseInt(e.target.value) || 10000])}
-                        min={10000}
+                        onChange={(e) => setLoanAmount([Number.parseInt(e.target.value) || 20000])}
+                        min={20000}
                         max={1000000}
                         className="text-lg"
                       />
                     </div>
-                    <p className="text-sm text-gray-600 mt-1">₱10,000 - ₱1,000,000</p>
+                    <p className="text-sm text-gray-600 mt-1">₱20,000 - ₱1,000,000</p>
                   </div>
                   <div>
                     <Label className="text-lg font-semibold">Duration (Months)</Label>
